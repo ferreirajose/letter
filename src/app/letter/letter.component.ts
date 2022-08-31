@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { combineLatest, forkJoin, map, merge, Observable, switchMap, tap } from 'rxjs';
+import { catchError, combineLatest, EMPTY, forkJoin, map, merge, Observable, Subject, switchMap, tap } from 'rxjs';
 import { LetterService } from './letter.service';
 import { Post } from './../interface/post';
 import { HttpClient } from '@angular/common/http';
@@ -12,13 +12,25 @@ import { Address, User } from './../interface/user';
 })
 export class LetterComponent implements OnInit {
 
-  users$ = this.letterService.getUsers();
+  private errorMessageSubject = new Subject<string>();
+  errorMessage$ = this.errorMessageSubject.asObservable();
+
+  users$ = this.letterService.getUsers().pipe(
+    catchError(err => {
+      this.errorMessageSubject.next(err);
+      return EMPTY;
+    })
+  )
 
   postsByUser$ = this.users$.pipe(
     switchMap((users: any) => {
      return forkJoin(
         users.map((user: any) => {
-          return this.letterService.getPostsById(user.id)
+          return this.letterService.getPostsById(user.id).pipe(
+            catchError(err => {
+              this.errorMessageSubject.next(err);
+              return EMPTY;
+            }))
         })
       )
     })
@@ -38,7 +50,9 @@ export class LetterComponent implements OnInit {
         posts: posts
       }))
     }
-  ))
+  )).pipe(
+
+  )
 
   private readonly subscriptions = merge(
     this.letter$

@@ -1,11 +1,22 @@
 <div class="row">
-  <div class="col-md-4" *ngFor='let letter of  letter$ | async'>
-    <div class="card mb-4" >
-      <div class="card-body">
-        <h5 class="card-title">{{ letter.name }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ letter.username}}</h6>
-        <a href="#" class="card-link">View Posts</a>
+  <ng-container *ngIf="letter$ | async as letter; else loadingOrError">
+
+    <div class="col-md-4" *ngFor='let data of letter'>
+      <div class="card mb-4" >
+        <div class="card-body">
+          <h5 class="card-title">{{ data.name }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ data.username}}</h6>
+          <a href="#" class="card-link">View Posts</a>
+        </div>
       </div>
     </div>
-  </div>
+
+  </ng-container>
 </div>
+
+<ng-template #loadingOrError>
+  <div class="alert alert-danger"
+    *ngIf="errorMessage$ | async as errorMessage">
+   <div [innerHtml]="errorMessage"></div>
+  </div>
+</ng-template>

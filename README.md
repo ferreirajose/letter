@@ -2,41 +2,51 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.0.
 
-## Development server
+## Dependencias 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+#### 1. Install Node Js
 
-## Code scaffolding
+```sh
+$ https://nodejs.org/en/download/
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+#### 2. Install Angular CLI 
 
-#### 1. Clone  
+```sh
+$ npm install -g @angular/cli
+```
+
+#### 3. Clone  
 
 
 ```sh
 $ https://github.com/ferreirajose/letter.git
 ```
 
-#### 2. install dependencies
+#### 4. install dependencies
 
 ```sh
 $ npm install 
 ```
 
-#### 3. Run Project
+#### 5. Run Project
 
 ```ts
 npm start
 ```
 
 
-#### 3. Navigate to Project
+#### 6. Navigate to Project
 
 ```ts
 Navigate to http://localhost:4200/.
 ```
 
-## Running unit tests
+#### 7. Running unit tests
+
+```ts
+npm run test
+```
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
