@@ -1,7 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    loadChildren: () =>
+    import('./letter/letter.module').then(m => m.LetterModule),
+  },
+  {
+    path: 'letter',
+    loadChildren: () => import('./letter/letter.module').then(m => m.LetterModule)
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: PageNotFoundComponent
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
