@@ -17,7 +17,7 @@ export class LetterService {
   }
 
   getPostsById(userId: string): Observable<Post[]> {
-    return this.http.get<Post[]>(`https://jsonplaceholder.typicode.com/post/${userId}`).pipe(retry(1), catchError(this.handleError));
+    return this.http.get<Post[]>(`https://jsonplaceholder.typicode.com/posts/${userId}`).pipe(retry(1), catchError(this.handleError));
   }
 
   handleError(error:any) {
