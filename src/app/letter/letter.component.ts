@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, combineLatest, EMPTY, forkJoin, map, merge, Observable, Subject, switchMap } from 'rxjs';
+import { catchError, combineLatest, EMPTY, forkJoin, map, merge, Subject, switchMap } from 'rxjs';
 
 import { Post } from '../interface/post';
 import { Address, User } from './../interface/user';
 import { LetterService } from './letter.service';
-import { Post } from './../interface/post';
 
 @Component({
   selector: 'app-letter',
@@ -24,7 +23,7 @@ export class LetterComponent implements OnInit {
   )
 
   postsByUser$ = this.users$.pipe(
-    switchMap((users: Observable<User[]>) => {
+    switchMap((users: User[]) => {
      return forkJoin(
         users.map((user: User) => {
           return this.letterService.getPostsById(user.id).pipe(

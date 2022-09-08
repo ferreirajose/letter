@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { retry, catchError, Observable, throwError, of } from 'rxjs';
-import { User } from './../interface/user';
+import { Injectable } from '@angular/core';
+import { catchError, Observable, retry, throwError } from 'rxjs';
+
 import { Post } from '../interface/post';
+import { User } from './../interface/user';
 
 @Injectable({
   providedIn: 'root'
