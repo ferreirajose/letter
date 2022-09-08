@@ -1,4 +1,4 @@
-[
+export const MOCK_POST = [
   {
     "userId": 1,
     "id": 1,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { retry, catchError, Observable, throwError } from 'rxjs';
+import { retry, catchError, Observable, throwError, of } from 'rxjs';
 import { User } from './../interface/user';
 import { Post } from '../interface/post';
 
@@ -16,8 +16,12 @@ export class LetterService {
     return this.http.get<User[]>('https://jsonplaceholder.typicode.com/users').pipe(retry(1), catchError(this.handleError));
   }
 
-  getPostsById(userId: string): Observable<Post[]> {
-    return this.http.get<Post[]>(`https://jsonplaceholder.typicode.com/posts/${userId}`).pipe(retry(1), catchError(this.handleError));
+  getPosts(): Observable<Post[]>  {
+    return this.http.get<Post[]>(`https://jsonplaceholder.typicode.com/posts`).pipe(retry(1), catchError(this.handleError));
+  }
+
+  getPostsById(userId: number): Observable<Post> {
+    return this.http.get<Post>(`https://jsonplaceholder.typicode.com/posts/${userId}`).pipe(retry(1), catchError(this.handleError));
   }
 
   handleError(error:any) {

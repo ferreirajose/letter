@@ -2,15 +2,15 @@ export interface User {
   id: number;
   name: string;
   username: string;
-  phone: string;
   email: string;
+  address: Address
+  phone: string;
+  website: string;
   company: {
     name: string;
     catchPhrase: string;
     bs: string;
   },
-  website: string;
-  address: Address
 }
 
 export interface Address {

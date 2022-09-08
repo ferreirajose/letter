@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, combineLatest, EMPTY, forkJoin, map, merge, Observable, Subject, switchMap, tap } from 'rxjs';
+import { catchError, combineLatest, EMPTY, forkJoin, map, merge, Observable, Subject, switchMap } from 'rxjs';
+
+import { Post } from '../interface/post';
+import { Address, User } from './../interface/user';
 import { LetterService } from './letter.service';
 import { Post } from './../interface/post';
-import { HttpClient } from '@angular/common/http';
-import { Address, User } from './../interface/user';
 
 @Component({
   selector: 'app-letter',
@@ -16,18 +17,18 @@ export class LetterComponent implements OnInit {
   errorMessage$ = this.errorMessageSubject.asObservable();
 
   users$ = this.letterService.getUsers().pipe(
-    catchError(err => {
+    catchError((err: any) => {
       this.errorMessageSubject.next(err);
       return EMPTY;
     })
   )
 
   postsByUser$ = this.users$.pipe(
-    switchMap((users: any) => {
+    switchMap((users: Observable<User[]>) => {
      return forkJoin(
-        users.map((user: any) => {
+        users.map((user: User) => {
           return this.letterService.getPostsById(user.id).pipe(
-            catchError(err => {
+            catchError((err: any) => {
               this.errorMessageSubject.next(err);
               return EMPTY;
             }))
@@ -37,7 +38,7 @@ export class LetterComponent implements OnInit {
   )
 
   letter$ = combineLatest([this.users$, this.postsByUser$]).pipe(
-    map(([users, posts]) => {
+    map(([users, posts]: [User[], Post[]]) => {
       return users.map((user: User) => ({
         id: user.id,
         name: user.name,
@@ -47,7 +48,7 @@ export class LetterComponent implements OnInit {
         phone: user.phone,
         website: user.website,
         company: user.company.name,
-        posts: posts
+        posts: posts.filter((post: Post) =>  user.id === post.userId)
       }))
     }
   )).pipe(
@@ -56,7 +57,7 @@ export class LetterComponent implements OnInit {
 
   private readonly subscriptions = merge(
     this.letter$
-  ).subscribe((val) => console.log(val));
+  ).subscribe((val: any) => console.log(val));
 
 
   constructor(private letterService: LetterService) { }
